@@ -33,7 +33,8 @@ phoneApp.factory('Phone', [
       phoneId: 'phones',
       format: 'json',
       apiKey: 'someKeyThis'
-    }, {
+    },
+     {
       update: {method: 'PUT', params: {phoneId: '@phone'}, isArray: true}
     });
    }
@@ -46,11 +47,51 @@ phoneApp.filter('checkmark', function() {
   }
 });
 
+phoneApp.filter('filterByBrands', function() {
+  return function(items) {
+    if(brands == items.brands) {
+      debugger;
+      return items;
+    }
+  };
+});
+
+phoneApp.filter('filterByRange', function (phones) {
+  var currentRange = parseFloat(phones.price);
+  var min = parseFloat(minPrice);
+  var max = parseFloat(maxPrice);
+  if (!currentRange) {
+      return false;
+    }
+  
+    if(min && currentRange < min) {
+      return false;
+    }
+    
+    if(max && currentRange > max) {
+      return false;
+    }
+  
+  return phones; 
+});
+
+  // phoneApp.filter('range', function(){
+  //   return function(items, property, min, max) {
+  //     return items.filter(function(item){
+  //       return item[property] >= min && item[property] <= max;
+  //     });
+  //   };
+  // });
+
+
+
 phoneApp.controller('PhoneListCtrl',['$scope','$http', '$location', 'Phone', function($scope, $http, $location, Phone) {
   
   $scope.phones = Phone.query();
+  $scope.brands = ['Motorola', 'Dell', 'T-Mobile', 'Samsung', 'LG', 'Sanyo'];
 
 }]);
+
 //About Controller
 phoneApp.controller('AboutCtrl',['$scope','$http', '$location', function($scope, $http, $location) {
 

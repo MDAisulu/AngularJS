@@ -8,7 +8,7 @@
 			<p>Reach your dream and take it!</p>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-lg-4 item" ng-repeat="phone in phones | filter: search">
+			<div class="col-xs-12 col-sm-6 col-lg-4 item" ng-repeat="phone in phones | filter: search | filter: filterByBrands | filter : FilterByPrice: 'phone.price' : minPrice : maxPrice">
 				<div class="preview-img text-center">
 					<img ng-src="{{phone.imageUrl}}" alt="{{phone.name}}"/>
             <span class="label"
@@ -36,13 +36,14 @@
 			<div class="list-group-item text-center">
 				<form>
 					<p>Бренды</p>
-					<select ng-model="phone" ng-options="phone as phone.brands for phone in phones | filter: phone.brands">
- 					</select>
- 					<p>Дисплей</p>
- 					<select ng-model="x" ng-options="phone as phone.description for phone in phones">
+					<select ng-model="filterByBrands" ng-options=" brand for brand in brands" >
  					</select>
  					<p>Стоимость</p>
- 					<input type="range" name="">
+ 					<select ng-model="x" ng-options="x as phone.displayTest for phone in phones">
+ 					</select>
+ 					<p>Дисплей</p>
+ 					<input type="text" ng-model=minPrice>
+ 					<input type="text" ng-model=maxPrice>
  					</select>
  					<button>Search</button>
 				</form>
